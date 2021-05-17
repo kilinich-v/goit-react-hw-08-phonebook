@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
-import { filterContact } from '../../redux/actions';
-import contactsSelectors from '../../redux/contacts/contacts-selectors';
+import { filterContact } from '../../redux/contacts';
+import { contactsSelectors } from '../../redux/contacts';
 
 export class FindContacts extends Component {
   render() {

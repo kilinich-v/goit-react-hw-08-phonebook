@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
-import { addContact } from '../../redux/contacts/contacts-operations';
+import { addContact } from '../../redux/contacts';
 
 class AddContact extends Component {
   state = {

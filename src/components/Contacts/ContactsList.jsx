@@ -1,11 +1,8 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
-import {
-  getContacts,
-  deleteContact,
-} from '../../redux/contacts/contacts-operations';
-import contactsSelectors from '../../redux/contacts/contacts-selectors';
+import { getContacts, deleteContact } from '../../redux/contacts';
+import { contactsSelectors } from '../../redux/contacts';
 
 export class ContactsList extends Component {
   componentDidMount() {

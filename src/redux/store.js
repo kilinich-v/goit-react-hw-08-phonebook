@@ -1,11 +1,7 @@
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import {
-  configureStore,
-  createReducer,
-  combineReducers,
-  getDefaultMiddleware,
-} from '@reduxjs/toolkit';
-import { persistStore } from 'redux-persist';
-import {
+  persistStore,
+  persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -13,23 +9,15 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import {
-  getContactsRequest,
-  getContactsSuccess,
-  getContactsError,
-  addContactRequest,
-  addContactSuccess,
-  addContactError,
-  deleteContactRequest,
-  deleteContactSuccess,
-  deleteContactError,
-  filterContact,
-} from './actions';
+import storage from 'redux-persist/lib/storage';
+import { contactsReducer } from './contacts';
+import { userReducer } from './user';
 
-// const persistConfig = {
-//   key: 'phonebook',
-//   storage,
-// };
+const userPersistConfig = {
+  key: 'token',
+  storage,
+  whitelist: ['token'],
+};
 
 const middleware = [
   ...getDefaultMiddleware({
@@ -39,43 +27,11 @@ const middleware = [
   }),
 ];
 
-const items = createReducer([], {
-  [getContactsSuccess]: (_, { payload }) => [...payload],
-  [addContactSuccess]: (state, { payload }) => [...state, payload],
-  [deleteContactSuccess]: (state, { payload }) =>
-    state.filter(({ id }) => id !== payload),
-});
-
-const filter = createReducer('', {
-  [filterContact]: (_, { payload }) => payload,
-});
-
-const loading = createReducer(false, {
-  [getContactsRequest]: () => true,
-  [getContactsSuccess]: () => false,
-  [getContactsError]: () => false,
-  [addContactRequest]: () => true,
-  [addContactSuccess]: () => false,
-  [addContactError]: () => false,
-  [deleteContactRequest]: () => true,
-  [deleteContactSuccess]: () => false,
-  [deleteContactError]: () => false,
-});
-
-const contactsReducer = combineReducers({
-  items,
-  filter,
-  loading,
-});
-
-const rootReducer = combineReducers({
-  contacts: contactsReducer,
-});
-
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    auth: persistReducer(userPersistConfig, userReducer),
+    contacts: contactsReducer,
+  },
   middleware: middleware,
   // devTools: process.env.NODE_ENV === 'development',
 });

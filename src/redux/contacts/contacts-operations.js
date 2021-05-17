@@ -9,9 +9,7 @@ import {
   deleteContactRequest,
   deleteContactSuccess,
   deleteContactError,
-} from '../actions';
-
-axios.defaults.baseURL = 'http://localhost:3000/';
+} from './contacts-actions';
 
 export const getContacts = () => dispatch => {
   dispatch(getContactsRequest());
