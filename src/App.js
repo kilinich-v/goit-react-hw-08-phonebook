@@ -35,8 +35,9 @@ const App = ({ isAuth, getUser }) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    if (isAuth) return;
     getUser();
-  }, [getUser]);
+  }, [getUser, isAuth]);
 
   const handleClick = () => {
     setOpen(prev => !prev);
